@@ -1,6 +1,8 @@
 'use client';
+
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 
 type Skill = {
   name: string;
@@ -16,7 +18,10 @@ const FrontendStack: React.FC<FrontendStackProps> = ({ skills }) => {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <div ref={ref} className="flex flex-col items-center justify-center text-black dark:text-white">
+    <div
+      ref={ref}
+      className="flex flex-col items-center justify-center text-black dark:text-white"
+    >
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-8">
         {skills.map((skill, index) => (
           <motion.div
@@ -30,11 +35,16 @@ const FrontendStack: React.FC<FrontendStackProps> = ({ skills }) => {
             }}
             className="flex flex-col items-center"
           >
-            <img
-              src={skill.image}
-              alt={skill.name}
-              className="w-16 h-16 object-contain mb-2"
-            />
+            <div className="relative w-16 h-16 mb-2">
+              <Image
+                src={skill.image}
+                alt={skill.name}
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 64px, 64px"
+                priority={index < 3} // โหลดรูปแรกๆ ไวขึ้น
+              />
+            </div>
             <span className="quicksand-quicksand text-sm">{skill.name}</span>
           </motion.div>
         ))}

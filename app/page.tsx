@@ -9,14 +9,15 @@ import { backend, frontend } from "@/utils/stack"
 
 export default function HomePage() {
   return (
-    <main className="p-6">
+    <main>
+      {/* Hero section */}
       <section className="relative w-full min-h-screen -mt-21">
         {/* 3D Model Background */}
         <div className="absolute inset-0 z-0">
           <UseModel />
         </div>
         {/* Overlay gradient behind text */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-white/80 to-transparent dark:from-transparent dark:via-black/20 dark:to-transparent"></div>
+        <div className="absolute h-full w-full inset-0 z-0 bg-gradient-to-b from-transparent via-white/80 to-transparent dark:from-transparent dark:via-black/10 dark:to-transparent"></div>
         {/* Overlay content */}
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
           {/* Header */}
@@ -51,16 +52,17 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="space-y-6">
+      {/* Stack section */}
+      <section className="space-y-6 min-h-screen flex flex-col justify-center items-center">
         <div>
           <FadeUpWhenVisible>
-            <h2 className=" text-4xl text-center font-bold mb-6">Stack for frontend</h2>
+            <h2 className=" text-4xl md:text-5xl text-center font-bold mb-6">Stack for frontend</h2>
           </FadeUpWhenVisible>
           <FeontendStack skills={frontend} />
         </div>
         <div>
           <FadeUpWhenVisible>
-            <h2 className=" text-4xl text-center font-bold mb-6">Stack for backend</h2>
+            <h2 className=" text-4xl md:text-5xl text-center font-bold mb-6">Stack for backend</h2>
           </FadeUpWhenVisible>
           <FeontendStack skills={backend} />
         </div>
