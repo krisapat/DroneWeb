@@ -9,15 +9,13 @@ import Image from "next/image";
 import { words } from "@/utils/words";
 import { backend, frontend } from "@/utils/stack";
 import FeontendStack from "@/components/stacks/FeontendStack";
+import FadeUpWhenVisible from "@/components/animations/FadeUpWhenVisible";
 
 // โหลด animation components แบบ lazy
 const TypingHeader = dynamic(() => import("@/components/animations/TypingHeader"), {
   ssr: false,
 });
 const UseModel = dynamic(() => import("@/components/3dmodel/UseModel"), {
-  ssr: false,
-});
-const FadeUpWhenVisible = dynamic(() => import("@/components/animations/FadeUpWhenVisible"), {
   ssr: false,
 });
 const ScrollTicker = dynamic(() => import("@/components/animations/ScrollTicker"), {
@@ -98,7 +96,7 @@ export default function HomePage() {
       </section>
 
       {/* Stack section */}
-      <section className="space-y-6 min-h-screen flex flex-col justify-center items-center">
+      <section className="space-y-6 mb-1 min-h-screen flex flex-col justify-center items-center">
         <div>
           <Suspense fallback={<h2 className="text-2xl font-bold text-gray-400">Loading...</h2>}>
             <FadeUpWhenVisible>

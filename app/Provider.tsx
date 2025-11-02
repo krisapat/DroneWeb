@@ -14,9 +14,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                 disableTransitionOnChange
             >
                 <Navbar />
-                <SmoothScrollWrapper>
+
                     {children}
-                </SmoothScrollWrapper>
+
                 <Toaster />
                 <Darkmode />
             </ThemeProvider>
