@@ -85,11 +85,11 @@ export default function HomePage() {
           <Suspense fallback={<div className="h-32 bg-gray-100 dark:bg-gray-800" />}>
             <ScrollTicker
               items={[
-                <Image src="/img/bg/pexels-didsss-6862219.jpg" alt="bg1" width={120} height={120} />,
-                <Image src="/img/bg/pexels-didsss-7013728.jpg" alt="bg2" width={120} height={120} />,
-                <Image src="/img/bg/pexels-didsss-7450561.jpg" alt="bg3" width={120} height={120} />,
-                <Image src="/img/bg/pexels-diva-30307611.jpg" alt="bg4" width={120} height={120} />,
-                <Image src="/img/bg/pexels-diva-30690582.jpg" alt="bg5" width={120} height={120} />,
+                <Image src="/img/bg/pexels-didsss-6862219.jpg" key={"bg1"} alt="bg1" width={120} height={120} />,
+                <Image src="/img/bg/pexels-didsss-7013728.jpg" key={"bg2"} alt="bg2" width={120} height={120} />,
+                <Image src="/img/bg/pexels-didsss-7450561.jpg" key={"bg3"} alt="bg3" width={120} height={120} />,
+                <Image src="/img/bg/pexels-diva-30307611.jpg" key={"bg4"} alt="bg4" width={120} height={120} />,
+                <Image src="/img/bg/pexels-diva-30690582.jpg" key={"bg5"} alt="bg5" width={120} height={120} />,
               ]}
               baseSpeed={80}
             />
