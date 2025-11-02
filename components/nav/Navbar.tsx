@@ -7,13 +7,16 @@ const Navbar = async () => {
       <div className="w-full flex items-center justify-between px-4 md:px-20 h-15 kanitFont">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <Link href="/" className="font-extrabold text-3xl text-primary kanitFont">
+          <Link
+            href="/"
+            className="font-extrabold text-3xl kanitFont text-neon"
+          >
             DroneAPI
           </Link>
         </div>
         {/* Desktop Menu */}
         <div className="flex space-x-2 ">
-          <Menu/>
+          <Menu />
         </div>
       </div>
     </div>

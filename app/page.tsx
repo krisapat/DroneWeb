@@ -1,37 +1,63 @@
-import TypingHeader from "@/components/animations/TypingHeader"
-import { words } from "@/utils/words"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import UseModel from "@/components/3dmodel/UseModel"
-import FadeUpWhenVisible from "@/components/animations/FadeUpWhenVisible"
-import FeontendStack from "@/components/stacks/FeontendStack"
-import { backend, frontend } from "@/utils/stack"
+"use client";
+
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+import { useInView } from "react-intersection-observer";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { words } from "@/utils/words";
+import { backend, frontend } from "@/utils/stack";
+import FeontendStack from "@/components/stacks/FeontendStack";
+
+// โหลด animation components แบบ lazy
+const TypingHeader = dynamic(() => import("@/components/animations/TypingHeader"), {
+  ssr: false,
+});
+const UseModel = dynamic(() => import("@/components/3dmodel/UseModel"), {
+  ssr: false,
+});
+const FadeUpWhenVisible = dynamic(() => import("@/components/animations/FadeUpWhenVisible"), {
+  ssr: false,
+});
+const ScrollTicker = dynamic(() => import("@/components/animations/ScrollTicker"), {
+  ssr: false,
+});
 
 export default function HomePage() {
+  // ใช้ inView เพื่อ render เฉพาะเมื่อถึง viewport
+  const { ref: modelRef, inView: showModel } = useInView({ threshold: 0.2 });
+  const { ref: tickerRef, inView: showTicker } = useInView({ threshold: 0.2 });
+
   return (
     <main>
       {/* Hero section */}
-      <section className="relative w-full min-h-screen -mt-21">
+      <section className="relative w-full min-h-screen -mt-15">
         {/* 3D Model Background */}
-        <div className="absolute inset-0 z-0">
-          <UseModel />
+        <div className="absolute inset-0 z-0" ref={modelRef}>
+          {showModel && (
+            <Suspense fallback={<div className="h-full w-full bg-gray-200 dark:bg-gray-800" />}>
+              <UseModel />
+            </Suspense>
+          )}
         </div>
-        {/* Overlay gradient behind text */}
-        <div className="absolute h-full w-full inset-0 z-0 bg-gradient-to-b from-transparent via-white/80 to-transparent dark:from-transparent dark:via-black/10 dark:to-transparent"></div>
+
+        {/* Overlay gradient */}
+        <div className="absolute h-full w-full inset-0 z-0 bg-gradient-to-b from-transparent via-white/80 to-transparent dark:via-black/10"></div>
+
         {/* Overlay content */}
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
-          {/* Header */}
-          <TypingHeader
-            className="text-4xl md:text-5xl font-bold mb-6 text-primary drop-shadow-lg text-center"
-            words={words}
-          />
+          <Suspense fallback={<h1 className="text-4xl font-bold text-gray-400">Loading...</h1>}>
+            <TypingHeader
+              className="text-4xl md:text-5xl font-bold mb-6 text-primary drop-shadow-lg text-center"
+              words={words}
+            />
+          </Suspense>
 
-          {/* Subtitle */}
           <p className="text-gray-900 dark:text-gray-300 max-w-xl drop-shadow-lg text-center mb-8 font-semibold">
             Drone data recording and tracking system with real-time logs and temperature recording.
           </p>
 
-          {/* CTA Buttons */}
           <div className="flex gap-4">
             <Button
               asChild
@@ -52,21 +78,45 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Scroll ticker — โหลดเฉพาะเมื่อใกล้ถึง viewport */}
+      <section ref={tickerRef}>
+        {showTicker && (
+          <Suspense fallback={<div className="h-32 bg-gray-100 dark:bg-gray-800" />}>
+            <ScrollTicker
+              items={[
+                <Image src="/img/bg/pexels-didsss-6862219.jpg" alt="bg1" width={120} height={120} />,
+                <Image src="/img/bg/pexels-didsss-7013728.jpg" alt="bg2" width={120} height={120} />,
+                <Image src="/img/bg/pexels-didsss-7450561.jpg" alt="bg3" width={120} height={120} />,
+                <Image src="/img/bg/pexels-diva-30307611.jpg" alt="bg4" width={120} height={120} />,
+                <Image src="/img/bg/pexels-diva-30690582.jpg" alt="bg5" width={120} height={120} />,
+              ]}
+              baseSpeed={80}
+            />
+          </Suspense>
+        )}
+      </section>
+
       {/* Stack section */}
       <section className="space-y-6 min-h-screen flex flex-col justify-center items-center">
         <div>
-          <FadeUpWhenVisible>
-            <h2 className=" text-4xl md:text-5xl text-center font-bold mb-6">Stack for frontend</h2>
-          </FadeUpWhenVisible>
+          <Suspense fallback={<h2 className="text-2xl font-bold text-gray-400">Loading...</h2>}>
+            <FadeUpWhenVisible>
+              <h2 className="text-4xl md:text-5xl text-center font-bold mb-6">Stack for frontend</h2>
+            </FadeUpWhenVisible>
+          </Suspense>
           <FeontendStack skills={frontend} />
         </div>
+
         <div>
-          <FadeUpWhenVisible>
-            <h2 className=" text-4xl md:text-5xl text-center font-bold mb-6">Stack for backend</h2>
-          </FadeUpWhenVisible>
+          <Suspense fallback={<h2 className="text-2xl font-bold text-gray-400">Loading...</h2>}>
+            <FadeUpWhenVisible>
+              <h2 className="text-4xl md:text-5xl text-center font-bold mb-6">Stack for backend</h2>
+            </FadeUpWhenVisible>
+          </Suspense>
           <FeontendStack skills={backend} />
         </div>
       </section>
     </main>
-  )
+  );
 }
