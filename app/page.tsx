@@ -1,42 +1,25 @@
-"use client";
-
-import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import { useInView } from "react-intersection-observer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { words } from "@/utils/words";
 import { backend, frontend } from "@/utils/stack";
-import FeontendStack from "@/components/stacks/FeontendStack";
+import FrontendStack from "@/components/stacks/FrontendStack";
 import FadeUpWhenVisible from "@/components/animations/FadeUpWhenVisible";
-
-// โหลด animation components แบบ lazy
-const TypingHeader = dynamic(() => import("@/components/animations/TypingHeader"), {
-  ssr: false,
-});
-const UseModel = dynamic(() => import("@/components/3dmodel/UseModel"), {
-  ssr: false,
-});
-const ScrollTicker = dynamic(() => import("@/components/animations/ScrollTicker"), {
-  ssr: false,
-});
+import ScrollTicker from "@/components/animations/ScrollTicker";
+import TypingHeader from "@/components/animations/TypingHeader";
+import UseModel from "@/components/3dmodel/UseModel";
 
 export default function HomePage() {
-  // ใช้ inView เพื่อ render เฉพาะเมื่อถึง viewport
-  const { ref: modelRef, inView: showModel } = useInView({ threshold: 0.2 });
-
   return (
     <main>
       {/* Hero section */}
       <section className="relative w-full min-h-screen -mt-15">
         {/* 3D Model Background */}
-        <div className="absolute inset-0 z-0" ref={modelRef}>
-          {showModel && (
-            <Suspense fallback={<div className="h-full w-full bg-gray-200 dark:bg-gray-800" />}>
-              <UseModel />
-            </Suspense>
-          )}
+        <div className="absolute inset-0 z-0">
+          <Suspense fallback={<div className="h-full w-full" />}>
+            <UseModel />
+          </Suspense>
         </div>
 
         {/* Overlay gradient */}
@@ -44,7 +27,7 @@ export default function HomePage() {
 
         {/* Overlay content */}
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
-          <Suspense fallback={<h1 className="text-4xl font-bold text-gray-400">Loading...</h1>}>
+          <Suspense fallback={<h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary drop-shadow-lg text-center">DroneWeb</h1>}>
             <TypingHeader
               className="text-4xl md:text-5xl font-bold mb-6 text-primary drop-shadow-lg text-center"
               words={words}
@@ -81,11 +64,11 @@ export default function HomePage() {
         <Suspense fallback={<div className="h-32 bg-gray-100 dark:bg-gray-800" />}>
           <ScrollTicker
             items={[
-              <Image src="/img/bg/pexels-didsss-6862219.jpg" key={"bg1"} alt="bg1" width={120} height={120} />,
-              <Image src="/img/bg/pexels-didsss-7013728.jpg" key={"bg2"} alt="bg2" width={120} height={120} />,
-              <Image src="/img/bg/pexels-didsss-7450561.jpg" key={"bg3"} alt="bg3" width={120} height={120} />,
-              <Image src="/img/bg/pexels-diva-30307611.jpg" key={"bg4"} alt="bg4" width={120} height={120} />,
-              <Image src="/img/bg/pexels-diva-30690582.jpg" key={"bg5"} alt="bg5" width={120} height={120} />,
+              <Image src="/img/bg/pexels-didsss-6862219.jpg" key={"bg1"} alt="bg1" width={120} height={120} loading="lazy" />,
+              <Image src="/img/bg/pexels-didsss-7013728.jpg" key={"bg2"} alt="bg2" width={120} height={120} loading="lazy" />,
+              <Image src="/img/bg/pexels-didsss-7450561.jpg" key={"bg3"} alt="bg3" width={120} height={120} loading="lazy" />,
+              <Image src="/img/bg/pexels-diva-30307611.jpg" key={"bg4"} alt="bg4" width={120} height={120} loading="lazy" />,
+              <Image src="/img/bg/pexels-diva-30690582.jpg" key={"bg5"} alt="bg5" width={120} height={120} loading="lazy" />,
             ]}
             baseSpeed={80}
           />
@@ -100,7 +83,7 @@ export default function HomePage() {
               <h2 className="text-4xl md:text-5xl text-center font-bold mb-6">Stack for frontend</h2>
             </FadeUpWhenVisible>
           </Suspense>
-          <FeontendStack skills={frontend} />
+          <FrontendStack skills={frontend} />
         </div>
 
         <div>
@@ -109,7 +92,7 @@ export default function HomePage() {
               <h2 className="text-4xl md:text-5xl text-center font-bold mb-6">Stack for backend</h2>
             </FadeUpWhenVisible>
           </Suspense>
-          <FeontendStack skills={backend} />
+          <FrontendStack skills={backend} />
         </div>
       </section>
     </main>
