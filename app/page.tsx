@@ -70,7 +70,7 @@ export default function HomePage() {
               <Image src="/img/bg/pexels-diva-30307611.jpg" key={"bg4"} alt="bg4" width={120} height={120} loading="lazy" />,
               <Image src="/img/bg/pexels-diva-30690582.jpg" key={"bg5"} alt="bg5" width={120} height={120} loading="lazy" />,
             ]}
-            baseSpeed={80}
+            speedFactor={2}
           />
         </Suspense>
       </section>
