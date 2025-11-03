@@ -17,8 +17,8 @@ export default function ScrollTicker({ items, baseSpeed = 100 }: ScrollTickerPro
   const x = useRef(0);
   const width = useRef(0);
   const [repeatCount, setRepeatCount] = useState(2);
+  const animationRef = useRef<number | null>(null);
 
-  // คำนวณจำนวนรอบที่ต้องซ้ำ
   useEffect(() => {
     const calc = () => {
       if (!containerRef.current || !contentRef.current) return;
@@ -33,11 +33,11 @@ export default function ScrollTicker({ items, baseSpeed = 100 }: ScrollTickerPro
     return () => window.removeEventListener("resize", calc);
   }, []);
 
-  // เคลื่อนไหวเมื่อ scroll
   useEffect(() => {
-    if (!contentRef.current) return;
-    let lastTime = performance.now();
     const el = contentRef.current;
+    if (!el) return;
+
+    let lastTime = performance.now();
 
     const animate = (time: number) => {
       const delta = time - lastTime;
@@ -51,29 +51,30 @@ export default function ScrollTicker({ items, baseSpeed = 100 }: ScrollTickerPro
       if (Math.abs(velocity) > 5) {
         x.current -= move;
 
-        // วนต่อเนื่องไม่กระตุก
+        // ทำให้เลื่อนต่อเนื่องแบบ loop จริง ๆ
         if (x.current <= -width.current) x.current += width.current;
         else if (x.current >= 0) x.current -= width.current;
 
-        el.style.transform = `translateX(${x.current}px)`;
+        el.style.transform = `translate3d(${x.current}px, 0, 0)`;
       }
 
-      requestAnimationFrame(animate);
+      animationRef.current = requestAnimationFrame(animate);
     };
-    requestAnimationFrame(animate);
+
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
   }, [baseSpeed, smoothVelocity]);
 
-  // render ซ้ำตาม repeatCount
-  const repeatedItems = Array.from({ length: repeatCount })
-    .map(() => items)
-    .flat();
+  const repeatedItems = Array.from({ length: repeatCount }).flatMap(() => items);
 
   return (
     <div ref={containerRef} className="overflow-hidden w-full py-4 select-none">
       <div
         ref={contentRef}
         className="flex will-change-transform whitespace-nowrap"
-        style={{ transform: "translateX(0px)" }}
+        style={{ transform: "translate3d(0,0,0)" }}
       >
         {repeatedItems.map((node, i) => (
           <div key={i} className="flex-shrink-0">

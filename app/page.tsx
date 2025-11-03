@@ -25,7 +25,6 @@ const ScrollTicker = dynamic(() => import("@/components/animations/ScrollTicker"
 export default function HomePage() {
   // ใช้ inView เพื่อ render เฉพาะเมื่อถึง viewport
   const { ref: modelRef, inView: showModel } = useInView({ threshold: 0.2 });
-  const { ref: tickerRef, inView: showTicker } = useInView({ threshold: 0.2 });
 
   return (
     <main>
@@ -78,25 +77,23 @@ export default function HomePage() {
       </section>
 
       {/* Scroll ticker — โหลดเฉพาะเมื่อใกล้ถึง viewport */}
-      <section ref={tickerRef}>
-        {showTicker && (
-          <Suspense fallback={<div className="h-32 bg-gray-100 dark:bg-gray-800" />}>
-            <ScrollTicker
-              items={[
-                <Image src="/img/bg/pexels-didsss-6862219.jpg" key={"bg1"} alt="bg1" width={120} height={120} />,
-                <Image src="/img/bg/pexels-didsss-7013728.jpg" key={"bg2"} alt="bg2" width={120} height={120} />,
-                <Image src="/img/bg/pexels-didsss-7450561.jpg" key={"bg3"} alt="bg3" width={120} height={120} />,
-                <Image src="/img/bg/pexels-diva-30307611.jpg" key={"bg4"} alt="bg4" width={120} height={120} />,
-                <Image src="/img/bg/pexels-diva-30690582.jpg" key={"bg5"} alt="bg5" width={120} height={120} />,
-              ]}
-              baseSpeed={80}
-            />
-          </Suspense>
-        )}
+      <section>
+        <Suspense fallback={<div className="h-32 bg-gray-100 dark:bg-gray-800" />}>
+          <ScrollTicker
+            items={[
+              <Image src="/img/bg/pexels-didsss-6862219.jpg" key={"bg1"} alt="bg1" width={120} height={120} />,
+              <Image src="/img/bg/pexels-didsss-7013728.jpg" key={"bg2"} alt="bg2" width={120} height={120} />,
+              <Image src="/img/bg/pexels-didsss-7450561.jpg" key={"bg3"} alt="bg3" width={120} height={120} />,
+              <Image src="/img/bg/pexels-diva-30307611.jpg" key={"bg4"} alt="bg4" width={120} height={120} />,
+              <Image src="/img/bg/pexels-diva-30690582.jpg" key={"bg5"} alt="bg5" width={120} height={120} />,
+            ]}
+            baseSpeed={80}
+          />
+        </Suspense>
       </section>
 
       {/* Stack section */}
-      <section className="space-y-6 mb-1 min-h-screen flex flex-col justify-center items-center">
+      <section className="space-y-6 min-h-screen flex flex-col justify-center items-center">
         <div>
           <Suspense fallback={<h2 className="text-2xl font-bold text-gray-400">Loading...</h2>}>
             <FadeUpWhenVisible>
