@@ -23,15 +23,29 @@ export default function LogsTable({ page }: LogsTableProps) {
       try {
         const API_URL = process.env.NEXT_PUBLIC_API_URL;
         const DRONE_ID = process.env.NEXT_PUBLIC_DRONE_ID;
+
         const res = await fetch(`${API_URL}/logs/${DRONE_ID}`);
+
+        if (!res.ok) {
+          console.error("API error:", res.status, res.statusText);
+          setData([]); // fallback เพื่อให้ UI รันต่อได้
+          return;
+        }
+
         const json = await res.json();
         setData(json);
+
+      } catch (err) {
+        console.error("Fetch failed:", err);
+        setData([]); // fallback เวลา fetch พังจริง ๆ เช่น CORS, network
       } finally {
         setLoading(false);
       }
     }
+
     fetchLogs();
   }, []);
+
 
   const limit = 6;
   const total = data.length;
