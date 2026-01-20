@@ -15,8 +15,8 @@ const TypingHeader: React.FC<TypingHeaderProps> = ({ className = '', words }) =>
         loop={true}
         cursor
         cursorStyle="|"
-        typeSpeed={100}
-        deleteSpeed={65}
+        typeSpeed={40}
+        deleteSpeed={50}
         delaySpeed={2000}
       />
     </h1>

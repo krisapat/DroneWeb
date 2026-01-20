@@ -1,3 +1,4 @@
+import SmoothScrollWrapper from "@/components/animations/SmoothScrollWrapper"
 import { Darkmode } from "@/components/darkmode/darkmode"
 import { ThemeProvider } from "@/components/darkmode/theme-provider"
 import Navbar from "@/components/nav/Navbar"
@@ -13,7 +14,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                 disableTransitionOnChange
             >
                 <Navbar />
+                <SmoothScrollWrapper>
                     {children}
+                </SmoothScrollWrapper>
                 <Toaster />
                 <Darkmode />
             </ThemeProvider>

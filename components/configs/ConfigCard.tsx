@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 async function fetchConfig() {
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/configs/${process.env.NEXT_PUBLIC_DRONE_ID}`,
-        { cache: "no-store" } // ไม่ cache เพราะอยากได้ข้อมูลล่าสุด
+        { cache: "force-cache" }
     );
 
     if (!res.ok) {
